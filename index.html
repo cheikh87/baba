@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<title>Table V01</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+<!--===============================================================================================-->	
+	<link rel="icon" type="image/png" href="images/icons/favicon.ico"/>
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/bootstrap/css/bootstrap.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="fonts/font-awesome-4.7.0/css/font-awesome.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/animate/animate.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/select2/select2.min.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="vendor/perfect-scrollbar/perfect-scrollbar.css">
+<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="css/util.css">
+	<link rel="stylesheet" type="text/css" href="css/main.css">
+<!--===============================================================================================-->
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-table100">
+			<div class="wrap-table100">
+				<div class="table100">
+					<table>
+						<thead>
+							<tr class="table100-head">
+								<th class="column1">Date</th>
+								<th class="column2">Client ID</th>
+								<th class="column3">dst</th>
+								<th class="column4">Canal</th>
+								<th class="column5">Durée</th>
+								<th class="column6">Audio</th>
+							</tr>
+						</thead>
+						<tbody id="enregistrements">
+								
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+	</div>
+
+
+	
+
+<!--===============================================================================================-->	
+	<script src="vendor/jquery/jquery-3.2.1.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/bootstrap/js/popper.js"></script>
+	<script src="vendor/bootstrap/js/bootstrap.min.js"></script>
+<!--===============================================================================================-->
+	<script src="vendor/select2/select2.min.js"></script>
+<!--===============================================================================================-->
+	<script src="js/main.js"></script>
+
+
+
+
+<script>
+// Ici on crée une fonction sans argument qui va appeler notre fichier php qui va faire la requete dans la base de données Mysql et recupère le contenu sous forme JSON
+var get_appels = function () {
+                $.ajax({
+                  url: 'php/get_appels.php',
+                  type: 'GET',
+                  contentType : 'application/json; charset=UTF-8',
+                 //Si les données sont correctement recupérées
+                    'success': function (result) {
+					//On fait une boucle sur les enregistrements pour parser ligne par ligne dans la ta
+                    for(var i=0;i<result.length;i++)
+						{
+						$("#enregistrements").append('<tr>'+
+						'			<td class="column1">'+result[i].calldate+'</td>'+
+						'			<td class="column2">'+result[i].clid+'</td>'+
+						'			<td class="column3">'+result[i].dst+'</td>'+
+						'			<td class="column4">'+result[i].channel+'</td>'+
+						'			<td class="column5">'+result[i].duration+'</td>'+
+						'			<td class="column6"><audio controls="controls"><source src="mp3/'+result[i].filename+'" type="audio/ogg" /></audio></td>'+
+						'		</tr>');	
+						}
+                   
+                    }
+                });
+          
+                return 0;
+            }
+			
+			//On déclence la fonction
+			get_appels();
+</script>
+
+</body>
+</html>
